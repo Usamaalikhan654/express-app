@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{>header}}
+    <title>Document</title>
+</head>
+<body>
+    {{>navbar}}
+  <div class="py-5 h-100 bg-info">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="col-12 col-lg-9 col-xl-7">
+        <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+          <div class="card-body p-4 p-md-5">
+            <h2>Add Custom Tour Package</h2>
+                <form>
+                    <label for="name">Tour Name:</label>
+                    <input type="text" id="name" name="name" required>
+        
+                    <label for="destination">Destination:</label>
+                    <input type="text" id="destination" name="destinations" required>
+        
+                    <label for="duration">Duration (days):</label>
+                    <input type="number" id="duration" name="duration" required>
+        
+                    <label for="price">Price ($):</label>
+                    <input type="number" id="price" name="price" required>
+        
+                    <label for="description">Description:</label>
+                    <textarea id="description" name="description" rows="4" required></textarea>
+
+                    <label for="picture">Upload Picture:</label>
+                     <input type="file" id="image" name="image" accept="image/*" required>
+
+        
+                    <button style="margin-top: 15px;" type="submit">Submit</button>
+                </form>
+         
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script>
+  document.getElementById("tourForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("name", document.getElementById("name").value);
+        formData.append("destinations", document.getElementById("destination").value);
+            formData.append("duration", document.getElementById("duration").value);
+                formData.append("price", document.getElementById("price").value);
+                formData.append("description", document.getElementById("description").value);
+    formData.append("imageUrl", document.getElementById("image").files[0]);
+    // Append other form data (description, price, duration, destinations, etc.) to the formData object
+
+    try {
+      const response = await fetch("http://localhost:3000/create-tour", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        alert("Tour package created successfully!");
+        // Optionally, you can redirect the user to another page or perform other actions after successful creation
+      } else {
+        alert("Failed to create tour package");
+      }
+    } catch (error) {
+      console.error("An error occurred:", error);
+    }
+  });
+</script>
+</body>
+</html>

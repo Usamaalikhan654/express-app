@@ -1,0 +1,110 @@
+
+		<header>
+			<nav class="navbar navbar-expand-lg navbar-light bg-light">
+				<div class="container">
+					<a class="navbar-brand" href="#">Abhishek.US</a>
+					<button
+						class="navbar-toggler"
+						type="button"
+						data-toggle="collapse"
+						data-target="#navbarSupportedContent"
+						aria-controls="navbarSupportedContent"
+						aria-expanded="false"
+						aria-label="Toggle navigation"
+					>
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<div class="collapse navbar-collapse" id="navbarSupportedContent">
+						<ul class="navbar-nav ml-auto mb-2 mb-lg-0">
+							<li class="nav-item">
+								<a class="nav-link active" href="/">Home</a>
+							</li>
+							<li class="nav-item" id="loginNav">
+								<a class="nav-link" href="/login">Login</a>
+							</li>
+							<li class="nav-item" id="registerNav">
+								<a class="nav-link" href="/register">Registration</a>
+							</li>
+						</ul>
+						
+					</div>
+					<div class="d-flex">
+						  <input class="btn btn-outline-dark" id="logoutNav" type="submit" value="Logout" onclick="logout()"/>
+      </div>
+				</div>
+				
+			</nav>
+		</header>
+		<!-- hero section -->
+
+		<section class="hero d-flex flex-column justify-content-center">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-6">
+						<h1>hii there!</h1>
+						<p>
+							Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquid
+							fugit obcaecati ea officiis optio porro quaerat? Numquam esse,
+							nobis alias dolor vero architecto veniam ab doloremque illo quas.
+							Magnam, atque?
+						</p>
+						<a href="index.html" class="btn1">Know More</a>
+					</div>
+				</div>
+			</div>
+		</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const authToken = localStorage.getItem("authToken");
+
+    if (authToken) {
+      // Hide login and register nav items
+      document.getElementById("loginNav").style.display = "none";
+      document.getElementById("registerNav").style.display = "none";
+      // Show logout nav item
+      document.getElementById("logoutNav").style.display = "block";
+    } else {
+      // Show login and register nav items
+      document.getElementById("loginNav").style.display = "block";
+      document.getElementById("registerNav").style.display = "block";
+      // Hide logout nav item
+      document.getElementById("logoutNav").style.display = "none";
+    }
+  });
+</script>
+
+
+<script>
+	function logout() {
+  fetch("/logout", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    // Optionally, you can include an authorization header if required
+    // headers: {
+    //   "Content-Type": "application/json",
+    //   "Authorization": `Bearer ${authToken}`
+    // },
+  })
+    .then(response => {
+      if (response.ok) {
+        // Clear the authToken from localStorage
+        localStorage.removeItem("authToken");
+       localStorage.removeItem("userRole");
+        // Optionally, clear the authToken from session
+        // sessionStorage.removeItem("authToken");
+
+        // Redirect the user to the desired page
+        window.location.href = "/"; // Redirect to the home page or any other page
+      } else {
+        // Handle the error response if the logout fails
+        console.error("Logout failed:", response.statusText);
+      }
+    })
+    .catch(error => {
+      console.error("An error occurred during logout:", error);
+    });
+}
+</script>
